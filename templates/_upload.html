@@ -1,0 +1,30 @@
+{% load widget_tweaks %}
+<form hx-target="this"
+    hx-post="{{ request.path }}"
+    hx-swap="innerHTML"
+    hx-target="this"
+    hx-encoding="multipart/form-data"
+    class="container">
+    {% csrf_token %}
+
+    <div class="row">
+
+        <fieldset class="col">
+            {% render_field form.upload class+="form-control" placeholder="Upload File" accept=".csv" %}
+        </fieldset>
+
+        <fieldset class="col">
+            <button class="btn btn-primary" type="submit">
+                Upload CSV
+            </button>
+        </fieldset>
+
+    </div>
+
+    {% if dataset %}
+        {% include "_datarows.html" %}
+    {% endif %}
+
+</form>
+
+
