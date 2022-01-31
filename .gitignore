@@ -1,0 +1,7 @@
+__pycache__
+media
+test_media
+venv
+*.pyc
+*.sqlite3
+
