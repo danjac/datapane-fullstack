@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from django.core.paginator import Paginator
+from django.core.paginator import InvalidPage, Paginator
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
@@ -42,9 +42,13 @@ def datarows(request: HttpRequest, dataset_id: int, page: int) -> HttpResponse:
 def get_datarows_context(dataset: DataSet, page: int, per_page: int = 20) -> dict:
 
     reader = dataset.csv_reader()
-    headers = next(reader)
 
-    page_obj = Paginator(list(reader), per_page=per_page).page(page)
+    try:
+        headers = next(reader)
+        page_obj = Paginator(list(reader), per_page=per_page).page(page)
+    except (StopIteration, InvalidPage):
+        headers = []
+        page_obj = None
 
     return {
         "dataset": dataset,
