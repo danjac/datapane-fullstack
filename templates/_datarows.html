@@ -1,6 +1,8 @@
 <div id="datarows" class="table-responsive mt-3" hx-target="this" hx-swap="outerHTML show:window:top">
     <table class="table table-striped">
-        <caption>{{ dataset }}</caption>
+        {% with count=page_obj.paginator.count %}
+        <caption>{{ dataset }} ({{ count }} row{{ count|pluralize }})</caption>
+        {% endwith %}
         <thead>
             <tr>
                 {% for header in headers %}

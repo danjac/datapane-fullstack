@@ -1,17 +1,25 @@
 {% load widget_tweaks %}
-<form hx-target="this"
-    hx-post="{{ request.path }}"
-    hx-swap="innerHTML"
+<form hx-post="{{ request.path }}"
+    hx-swap="outerHTML"
     hx-target="this"
     hx-encoding="multipart/form-data"
-    class="container">
+    class="container"
+    novalidate>
+
     {% csrf_token %}
 
     <div class="row">
 
+        {% with WIDGET_ERROR_CLASS="is-invalid" %}
         <fieldset class="col">
-            {% render_field form.upload class+="form-control" placeholder="Upload File" accept=".csv" %}
+            {% render_field form.upload class+="form-control" aria-label="Upload File" accept=".csv" %}
+            {% for error in form.upload.errors %}
+            <div class="invalid-feedback">
+                {{ error }}
+            </div>
+            {% endfor %}
         </fieldset>
+        {% endwith %}
 
         <fieldset class="col">
             <button class="btn btn-primary" type="submit">
@@ -26,5 +34,4 @@
     {% endif %}
 
 </form>
-
 
