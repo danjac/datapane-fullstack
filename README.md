@@ -18,7 +18,7 @@ To run unit tests:
 
 ## Notes
 
-Frontend is rendered entirely in Django templates and HTMX.
+Frontend is rendered entirely in Django templates and HTMX. CSS is rendered with Bootstrap 5.
 
 Code has been formatted using Black, Isort and Flake8.
 
