@@ -86,11 +86,11 @@ def datarows(request: HttpRequest, dataset_id: int, page: int) -> HttpResponse:
     )
 
 
-def get_dataset_page(page: int) -> Page:
+def get_dataset_page(page: int, per_page: int = 20) -> Page:
 
     return Paginator(
         DataSet.objects.order_by("-created"),
-        per_page=20,
+        per_page=per_page,
         allow_empty_first_page=True,
     ).page(page)
 
