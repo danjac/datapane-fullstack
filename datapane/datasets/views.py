@@ -96,6 +96,10 @@ def get_dataset_page(page: int, per_page: int = 20) -> Page:
 
 
 def get_datarows_context(dataset: DataSet, page: int, per_page: int = 20) -> dict:
+    # NOTE: this function loads the whole CSV into a list. While this is OK for
+    # smaller datasets this could result in OOM issues with a very large file.
+    # We should therefore consider a lazy-loading wrapper that plays nicely
+    # with pagination.
 
     reader = dataset.csv_reader()
 
