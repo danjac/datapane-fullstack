@@ -1,4 +1,4 @@
-<div id="datasets" class="table-responsive mt-3" hx-target="this" hx-swap="outerHTML show:window:top">
+<div id="datasets" class="table-responsive mt-3">
     <table class="table table-striped">
         <thead>
             <tr>
@@ -9,7 +9,7 @@
         <tbody>
             {% for dataset in page_obj %}
                 <tr>
-                    <td>{{ dataset }}</td>
+                    <td><a href="{{ dataset.get_absolute_url }}">{{ dataset }}</a></td>
                     <td>{{ dataset.created|date }}</td>
                 </tr>
             {% empty %}
@@ -20,7 +20,8 @@
         </tbody>
     </table>
     {% if page_obj.has_other_pages %}
-        <nav aria-label="navigation" class="d-flex justify-content-center">
+        <nav aria-label="navigation" class="d-flex justify-content-center"
+            hx-target="#datasets" hx-swap="outerHTML show:window:top">
             <ul class="pagination">
                 {% if page_obj.has_previous %}
                     <li class="page-item">

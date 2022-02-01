@@ -67,6 +67,16 @@ def datasets(request: HttpRequest, page: int) -> HttpResponse:
 
 
 @require_http_methods(["GET"])
+def dataset(request: HttpRequest, dataset_id: int) -> HttpResponse:
+    dataset = get_object_or_404(DataSet, pk=dataset_id)
+    return TemplateResponse(
+        request,
+        "dataset.html",
+        get_datarows_context(dataset, 1),
+    )
+
+
+@require_http_methods(["GET"])
 def datarows(request: HttpRequest, dataset_id: int, page: int) -> HttpResponse:
 
     return TemplateResponse(

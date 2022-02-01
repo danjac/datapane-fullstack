@@ -7,6 +7,7 @@ from datetime import datetime
 
 from django.core.files import File
 from django.db import models
+from django.urls import reverse
 
 
 class DataSet(models.Model):
@@ -15,6 +16,9 @@ class DataSet(models.Model):
 
     def __str__(self) -> str:
         return pathlib.Path(self.upload.name).name
+
+    def get_absolute_url(self) -> str:
+        return reverse("dataset", args=[self.id])
 
     def csv_reader(self) -> csv.Reader:
         return csv.reader(self.upload.open("r"))

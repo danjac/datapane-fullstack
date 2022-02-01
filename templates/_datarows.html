@@ -1,4 +1,4 @@
-<div id="datarows" class="table-responsive mt-3" hx-target="this" hx-swap="outerHTML show:window:top">
+<div id="datarows" class="table-responsive mt-3">
     <table class="table table-striped">
         {% with count=page_obj.paginator.count %}
             <caption>{{ dataset }} ({{ count }} row{{ count|pluralize }})</caption>
@@ -22,7 +22,10 @@
 
     </table>
     {% if page_obj.has_other_pages %}
-        <nav aria-label="navigation" class="d-flex justify-content-center">
+        <nav aria-label="navigation"
+             class="d-flex justify-content-center"
+             hx-target="#datarows"
+             hx-swap="outerHTML show:window:top">
             <ul class="pagination">
                 {% if page_obj.has_previous %}
                     <li class="page-item">

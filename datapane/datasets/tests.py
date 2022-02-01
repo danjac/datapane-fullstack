@@ -110,6 +110,16 @@ class TestUploadView(TestCase):
         self.assertTemplateUsed(response, "_upload.html")
 
 
+class DataSetView(TestCase):
+    def setUp(self):
+        self.dataset = create_dataset()
+
+    @override_settings(MEDIA_ROOT=TEST_MEDIA_ROOT)
+    def test_get(self):
+        response = self.client.get(self.dataset.get_absolute_url())
+        self.assertEqual(response.status_code, http.HTTPStatus.OK)
+
+
 class DataRowsView(TestCase):
     @override_settings(MEDIA_ROOT=TEST_MEDIA_ROOT)
     def test_get(self):
