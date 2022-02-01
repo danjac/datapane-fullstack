@@ -20,6 +20,8 @@ To run unit tests:
 
 Frontend is rendered entirely in Django templates and HTMX.
 
+Code has been formatted using Black, Isort and Flake8.
+
 
 
 
