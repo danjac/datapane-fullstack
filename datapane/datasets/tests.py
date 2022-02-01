@@ -35,6 +35,50 @@ class TestDataSetModel(TestCase):
         self.assertEqual(len(rows), 11)
 
 
+class TestEntryFormView(TestCase):
+    url = reverse_lazy("entry_form")
+
+    def test_get(self):
+        create_dataset()
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, http.HTTPStatus.OK)
+
+    def test_get_no_rows(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, http.HTTPStatus.OK)
+
+
+class TestDataSets(TestCase):
+    url = reverse_lazy("datasets", args=[1])
+
+    def test_get(self):
+        create_dataset()
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, http.HTTPStatus.OK)
+
+    def test_get_no_rows(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, http.HTTPStatus.OK)
+
+
+class TestProcessEntryFormView(TestCase):
+    url = reverse_lazy("process_entry_form")
+
+    def test_post_valid(self):
+        response = self.client.post(
+            self.url, {"name": "tester", "email": "tester@gmail.com", "age": "33"}
+        )
+        self.assertEqual(response.status_code, http.HTTPStatus.OK)
+        self.assertTrue(response.context["success"])
+
+    def test_post_invalid(self):
+        response = self.client.post(
+            self.url, {"name": "tester", "email": "tester", "age": "NaN"}
+        )
+        self.assertEqual(response.status_code, http.HTTPStatus.OK)
+        self.assertFalse(response.context["success"])
+
+
 class TestUploadView(TestCase):
     url = reverse_lazy("upload")
 

@@ -1,13 +1,43 @@
 from __future__ import annotations
 
-from django.core.paginator import InvalidPage, Paginator
+from django.core.paginator import InvalidPage, Page, Paginator
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
 from django.views.decorators.http import require_http_methods
 
-from datapane.datasets.forms import DataSetForm
+from datapane.datasets.forms import DataSetForm, EntryForm
 from datapane.datasets.models import DataSet
+
+
+@require_http_methods(["GET"])
+def entry_form(request: HttpRequest) -> HttpResponse:
+
+    return TemplateResponse(
+        request,
+        "entry_form.html",
+        {
+            "form": EntryForm(),
+            "page_obj": get_dataset_page(1),
+        },
+    )
+
+
+@require_http_methods(["POST"])
+def process_entry_form(request: HttpRequest) -> HttpResponse:
+    # NOTE: as we're not doing any signup/login, this just validates and exits.
+
+    form = EntryForm(request.POST)
+    success = False
+
+    if form.is_valid():
+        # reset the form
+        success = True
+        form = EntryForm()
+
+    return TemplateResponse(
+        request, "_entry_form.html", {"form": form, "success": success}
+    )
 
 
 @require_http_methods(["GET", "POST"])
@@ -30,6 +60,13 @@ def upload(request: HttpRequest) -> HttpResponse:
 
 
 @require_http_methods(["GET"])
+def datasets(request: HttpRequest, page: int) -> HttpResponse:
+    return TemplateResponse(
+        request, "_datasets.html", {"page_obj": get_dataset_page(page)}
+    )
+
+
+@require_http_methods(["GET"])
 def datarows(request: HttpRequest, dataset_id: int, page: int) -> HttpResponse:
 
     return TemplateResponse(
@@ -37,6 +74,15 @@ def datarows(request: HttpRequest, dataset_id: int, page: int) -> HttpResponse:
         "_datarows.html",
         get_datarows_context(get_object_or_404(DataSet, pk=dataset_id), page),
     )
+
+
+def get_dataset_page(page: int) -> Page:
+
+    return Paginator(
+        DataSet.objects.order_by("-created"),
+        per_page=20,
+        allow_empty_first_page=True,
+    ).page(page)
 
 
 def get_datarows_context(dataset: DataSet, page: int, per_page: int = 20) -> dict:

@@ -11,14 +11,14 @@
     <div class="row">
 
         {% with WIDGET_ERROR_CLASS="is-invalid" %}
-        <fieldset class="col">
-            {% render_field form.upload class+="form-control" aria-label="Upload File" accept=".csv" %}
-            {% for error in form.upload.errors %}
-            <div class="invalid-feedback">
-                {{ error }}
-            </div>
-            {% endfor %}
-        </fieldset>
+            <fieldset class="col">
+                {% render_field form.upload class+="form-control" aria-label="Upload File" accept=".csv" %}
+                {% for error in form.upload.errors %}
+                    <div class="invalid-feedback">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </fieldset>
         {% endwith %}
 
         <fieldset class="col">

@@ -10,6 +10,16 @@ from datapane.datasets.models import DataSet
 sniffer = csv.Sniffer()
 
 
+class EntryForm(forms.Form):
+
+    # NOTE: if we were doing actual signup/login this would probably
+    # inherit from auth UserCreationForm.
+
+    name = forms.CharField(max_length=100)
+    age = forms.IntegerField()
+    email = forms.EmailField()
+
+
 class DataSetForm(forms.ModelForm):
     class Meta:
         model = DataSet

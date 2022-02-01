@@ -11,20 +11,15 @@
         <script src="https://unpkg.com/htmx.org@1.6.1"
             integrity="sha384-tvG/2mnCFmGQzYC1Oh3qxQ7CkQ9kMzYjWZSNtrRZygHPDDqottzEJsqS4oUVodhW"
             crossorigin="anonymous"></script>
-        <script src="https://unpkg.com/alpinejs@3.7.1/dist/cdn.min.js"
-            defer
-            integrity="sha384-KLv/Yaw8nAj6OXX6AvVFEt1FNRHrfBHziZ2JzPhgO9OilYrn6JLfCR4dZzaaQCA5"
-            crossorigin="anonymous"></script>
-
     </head>
     <body hx-boost="true">
-        <div class="container">
-            <header class="d-flex justify-content-center py-3">
+        <div class="container mb-3">
+            <header class="d-flex justify-content-center py-3 border-bottom">
                 {% with url_name=request.resolver_match.url_name %}
                     <ul class="nav nav-pills">
                         <li class="nav-item"><a href="{% url 'home' %}" class="nav-link{% if url_name == 'home' %} active{% endif %}" aria-current="page">Home</a></li>
                         <li class="nav-item"><a href="{% url 'upload' %}" class="nav-link{% if url_name == 'upload' %} active{% endif %}">CSV Uploader</a></li>
-                        <li class="nav-item"><a href="#" class="nav-link">Entry Form</a></li>
+                        <li class="nav-item"><a href="{% url 'entry_form' %}" class="nav-link{% if url_name == 'entry_form' %} active{% endif %}">Entry Form</a></li>
                     </ul>
                 {% endwith %}
             </header>

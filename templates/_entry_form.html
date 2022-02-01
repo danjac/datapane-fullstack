@@ -1,0 +1,59 @@
+{% load widget_tweaks %}
+<form hx-post="{% url 'process_entry_form' %}"
+    hx-swap="outerHTML"
+    hx-target="this"
+    hx-encoding="multipart/form-data"
+    class="container"
+    novalidate>
+
+    {% csrf_token %}
+
+    {% if success %}
+        <div class="alert alert-success" role="alert">
+            All Good!
+        </div>
+    {% endif %}
+
+    <div class="row">
+
+        {% with WIDGET_ERROR_CLASS="is-invalid" %}
+
+            <fieldset class="col">
+                {% render_field form.name class+="form-control" placeholder="Your Name" %}
+                {% for error in form.name.errors %}
+                    <div class="invalid-feedback">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </fieldset>
+
+            <fieldset class="col">
+                {% render_field form.age class+="form-control" placeholder="Your Age" %}
+                {% for error in form.age.errors %}
+                    <div class="invalid-feedback">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </fieldset>
+
+            <fieldset class="col">
+                {% render_field form.email class+="form-control" placeholder="Your Email Address" %}
+                {% for error in form.email.errors %}
+                    <div class="invalid-feedback">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </fieldset>
+
+        {% endwith %}
+
+        <fieldset class="col">
+            <button class="btn btn-primary" type="submit">
+                Sign In
+            </button>
+        </fieldset>
+
+    </div>
+
+</form>
+
